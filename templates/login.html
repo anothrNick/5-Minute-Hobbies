@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block container %}
+
+
+	<div class="col-md-6 col-md-offset-3">
+		<form role="form" method="post" action="/login" class="lrg-form col-md-12">
+			<div><input type="text" class="form-control itr" name="username" id="username" placeholder="username"></div>
+			<div><input type="password" class="form-control ibr" name="password" id="password" placeholder="password"></div>
+            <br/>
+		    <button type="submit" class="btn btn-success col-md-12">Login</button>
+        </form>
+	</div>
+
+
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block container %}
+
+    {% if session.username %}
+    <div class="row">
+        <div class="col-md-2">
+            <a href="{{ url_for('addhobby') }}" class="btn btn-success pull-right" style="margin-bottom:20px">Add Hobby</a>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="hobby-list">
+        {% for hobby in hobbyList %}
+            <div class="row" >
+                <div class="ahobby" id="{{ hobby.id }}">
+                    <img src="{{ hobby.imageurl }}" class="col-md-3"/>
+
+                    <div class="col-md-9">
+                        <h4>{{ hobby.name }}</h4>
+                        <p>{{ hobby.description }}</p>
+                    </div>
+                </div>
+            </div>
+            <br>
+        {% endfor %}
+    </div>
+
+<script type="text/javascript">
+    document.getElementById("brnav").classList.add("active");
+    $(".hobby-list").delegate(".ahobby", "click", function(){
+        console.log("clicked a hobby");
+        document.location.href = "/hobby/"+$(this).attr('id');
+    });
+</script>
+{% endblock %}

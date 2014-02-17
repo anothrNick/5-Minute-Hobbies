@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block container %}
+
+
+<div class="row">
+    <div class="col-md-4">
+        <img class="mw-image" id="hi" src="{{ hobby.imageurl }}"/>
+
+        <h3>{{ hobby.name }}</h3>
+        <br>
+        <p>{{ hobby.description }}</p>
+    </div>
+
+    <div class="col-md-8">
+        <ul id="hobby-tabs" class="nav nav-tabs">
+          <li class="active"><a href="#activity">Activity</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <!--<li><a href="#links">Links</a></li>-->
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="activity">
+                <div class="hc">
+                   activity
+                </div>
+            </div>
+            <div class="tab-pane fade" id="reviews">
+                <div class="hc">
+                   reviews
+                </div>
+            </div>
+            <!--<div class="tab-pane fade" id="links">
+                <div class="hc">
+                   links
+                </div>
+            </div>-->
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+    $('#hobby-tabs a').click(function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+    })
+</script>
+{% endblock %}

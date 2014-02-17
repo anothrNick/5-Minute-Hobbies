@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block container %}
+
+
+	<div class="jumbotron">
+		<h2>Welcome to</h2>
+        <h1 class="welcome">Five Minute Hobbies!</h1>
+        <p>
+            Add, share, rate, and review hobbies with the world!
+        </p>
+        <br>
+
+        {% if not session.username %}
+        <p>
+            <a class="btn btn-lg btn-success" href="{{ url_for('register') }}" role="button">Sign up</a>
+        </p>
+        {%endif%}
+	</div>
+
+
+{% endblock %}

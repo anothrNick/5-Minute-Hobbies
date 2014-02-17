@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block container %}
+
+
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3" >
+			<form role="form" method="post" action="/register" class="col-md-12 lrg-form">
+				<div><input name="firstname" type="text" class="form-control itr" id="firstname" placeholder="first name"></div>
+                <div><input name="lastname" type="text" class="form-control imr" id="lastname" placeholder="last name"></div>
+                <div><input name="username" type="text" class="form-control imr" id="username" placeholder="username"></div>
+                <div><input name="email" type="email" class="form-control imr" id="email" placeholder="email"></div>
+				<div><input name="password" type="password" class="form-control ibr" id="password" placeholder="password"></div>
+                <br/>
+				<button type="submit" class="btn btn-primary col-md-12">Register</button>
+			</form>
+		</div>
+	</div>
+
+
+{% endblock %}

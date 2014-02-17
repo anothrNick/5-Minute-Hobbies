@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block container %}
+
+
+<div class="row">
+    <div class="col-md-6">
+        <form class="form-horizontal" method="post" action="/addhobby" role="form">
+
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <input type="text" name="name" class="form-control" id="hobby-name" placeholder="Hobby Name">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <input type="text" name="url" class="form-control" id="hobby-image" placeholder="Image URL">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <textarea type="text" name="desc" class="form-control" id="" rows="10" placeholder="Description"></textarea>
+                </div>
+            </div>
+
+            <p><input type="submit" class="btn btn-default" value="Add"/></p>
+        </form>
+    </div>
+    <img id="hi" class="col-md-6"/>
+</div>
+
+<script type="text/javascript">
+    $("#hobby-image").change(function(){
+        var isrc = $("#hobby-image").val();
+        console.log(isrc);
+        $("#hi").attr('src', isrc);
+    });
+</script>
+
+{% endblock %}

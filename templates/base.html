@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>5 Minute Hobbies</title>
+		<meta charset="utf-8">
+		<meta name="author" content="Nick Sjostrom">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+        <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-1.8.3.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	</head>
+	<body>
+        <div class='container'>
+			<div class="header">
+                <h4 class="text-muted">Five Minute Hobbies</h4>
+                <ul class="nav navbar-nav pull-left">
+                    <li id="brnav"><a href="{{ url_for('browse') }}" class="text-muted">Hobbies</a></li>
+                </ul>
+
+                <ul class="sess pull-right">
+                    {% if session.username %}
+                    <li><a href="">{{ session.username }}</a></li>
+                    <li><a href="{{ url_for('logout') }}">logout</a></li>
+                    {% else %}
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                    {% endif %}
+                </ul>
+			</div>
+
+                <!-- PAGE CONTENT -->
+                <div class="content-wrap">
+                <!-- USER MESSAGES -->
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-success alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <!--CONTENT-->
+                {% block container %}
+                {% endblock %}
+                </div>
+		    <div class="footer"><p>&copy; 2013-2014 Nick Sjostrom</p></div>
+        </div>
+	</body>
+</html>
