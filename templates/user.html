@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block container %}
+
+
+<div class="row">
+    <div class="col-md-4">
+        <img src="http://i.imgur.com/PUF4QiC.jpg" alt="{{ user.username }}" class="col-md-12 no-lp">
+        <div class="col-md-12 no-lp" >
+            <div class="user-title">{{ user.username }}</div>
+        </div>
+    </div>
+
+    {% if hobs != None %}
+    <div class="col-md-8">
+        <h3>My Hobbies</h3>
+        <table class="table table-hover">
+
+            {% for hobby in hobs %}
+                <tr><td><a href="{{ url_for('hobby', hid=hobby.id) }}">{{ hobby.name }}</a></td></tr>
+            {% endfor %}
+
+        </table>
+    </div>
+
+    {% else %}
+    <div class="col-md-8">
+        <div class="alert alert-success alert-dismissable">
+            You do not have any hobbies. Find some.
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

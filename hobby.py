@@ -42,10 +42,19 @@ def hobby(hid):
     if not hid:
         return redirect(url_for('browse'))
     thehobby = Hobby.select().where(hid == Hobby.id).get()
-    print(thehobby.name)
     if thehobby:
         return render_template('hobby.html',hobby=thehobby)
     return redirect(url_for('browse'))
+
+"""
+FOLLOW HOBBY
+"""
+@app.route('/followhobby/<hid>')
+def followhobby(hid):
+   hobb = MyHobbies.create(userid=session['userid'],
+                           hobbyid=hid)
+   return redirect(url_for('user', userid=session['userid']))
+
 
 """
 REGISTER USER
@@ -89,6 +98,15 @@ def logout():
    session.pop("user", None)
    flash("You are now logged out.")
    return redirect(url_for("index"))
+
+"""
+USER DETAIL
+"""
+@app.route('/user/<userid>')
+def user(userid):
+   use = User.select().where(userid == User.id).get()
+   hbs = Hobby.select().join(MyHobbies).where((userid == MyHobbies.userid) & (Hobby.id == MyHobbies.hobbyid))
+   return render_template("user.html", user=use, hobs=hbs)
 
 """
 LIST USERS

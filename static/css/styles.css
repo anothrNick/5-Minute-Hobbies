@@ -56,6 +56,24 @@ body > .container{
     border-top-right-radius: 0;
     border-top-left-radius: 0;
 }
+.el{
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.er{
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.hlist{
+    box-shadow: 0 1px 0 rgba(255,255,255,.3), 0 6px 0 #1B3359, 0 7px 0 #666;
+    margin-bottom: 5px;
+}
+.hobby-short{
+    margin-bottom: 20px;
+}
 
 .lrg-form{
     font-size: 18px;
@@ -135,6 +153,24 @@ body > .container{
 }
 .mw-image{
     max-width:100%;
+}
+.no-lp{
+    padding-left:0;
+}
+.no-rp{
+    padding-right:0;
+}
+.nop{
+    padding: 0;
+}
+
+.user-title{
+    background-color: #EFEFEF;
+    padding: 10px;
+    text-align: center;
+    font-size: 18px;
+    text-shadow: 1px 1px 0 #FFF, -1px -1px 0 rgba(0,0,0,.1);
+    letter-spacing: 1px;
 }
 
 @media screen and (min-width: 768px) {
