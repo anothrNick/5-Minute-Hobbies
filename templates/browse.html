@@ -18,7 +18,9 @@
 
         <a href="{{ url_for('hobby', hid=hobby.id) }}" class="btn btn-default col-md-8 el" title="{{ hobby.name }}" style="overflow:hidden">{{ hobby.name }}</a>
 
-        <a href="{{ url_for('followhobby', hid=hobby.id) }}" class="btn btn-primary col-md-4 er">iliekdis</a>
+        {% if session.username %}
+            <a href="{{ url_for('followhobby', hid=hobby.id) }}" class="btn btn-primary col-md-4 er">iliekdis</a>
+        {% endif %}
     </div>
     {% endfor %}
     </div>
