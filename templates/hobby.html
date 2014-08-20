@@ -7,8 +7,7 @@
         <img class="mw-image" id="hi" src="{{ hobby.imageurl }}"/>
 
         <h3>{{ hobby.name }}</h3>
-        <br>
-        <p>{{ hobby.description }}</p>
+
     </div>
 
     <div class="col-md-8">
@@ -21,12 +20,26 @@
         <div class="tab-content">
             <div class="tab-pane fade in active" id="activity">
                 <div class="hc">
-                   activity
+                    <div class="row"><div class="col-md-12"><button class="btn btn-sm btn-default pull-right">Edit</button></div></div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>{{ hobby.description }}</p>
+                            <textarea name="content" data-provide="markdown" rows="7">{{ hobby.description }}</textarea>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="tab-pane fade" id="reviews">
                 <div class="hc">
-                   reviews
+                    <div class="row"><div class="col-md-12"><button class="btn btn-sm btn-info pull-right" data-toggle="modal" data-target="#msgModal">Add Pic</button></div></div>
+
+                    <div class="row">
+                    {% for pic in hobby.images %}
+                        <div class="col-md-4" id="{{ pic.id }}">
+                            <img src="{{ pic.imageurl }}" class="hobby-pic" style="width:100%;box-shadow: 1px 1px 2px rgba(0,0,0,.6);"/>
+                        </div>
+                    {% endfor %}
+                    </div>
                 </div>
             </div>
             <!--<div class="tab-pane fade" id="links">
@@ -36,6 +49,42 @@
             </div>-->
         </div>
 
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="msgModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="msgLabel">Add Picture</h4>
+            </div>
+            <form class="form-horizontal" action="{{ url_for('hobby_pic', hid=hobby.id) }}" method="post" role="form">
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label for="image" class="control-label">Image URL:</label>
+                            <input name="image" id="image" class="form-control" type="text" placeholder="image" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label for="desc" class="control-label">Description:</label>
+                            <input name="desc" id="desc" class="form-control" type="text" placeholder="description" />
+                        </div>
+                    </div>
+
+                    <br/>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 <script type="text/javascript">

@@ -61,10 +61,21 @@ FOLLOW HOBBY
 """
 @app.route('/followhobby/<hid>')
 def followhobby(hid):
-   hobb = MyHobbies.create(userid=current_user.id,
-                           hobbyid=hid)
+   cnt = MyHobbies.select().where(MyHobbies.userid==current_user.id, MyHobbies.hobbyid==hid).count()
+
+   if not cnt:
+      hobb = MyHobbies.create(userid=current_user.id,
+                              hobbyid=hid)
    return redirect(url_for('user', userid=current_user.id))
 
+@app.route('/hobby/pic/<hid>', methods=['GET', 'POST'])
+def hobby_pic(hid):
+   if request.method == 'POST':
+      if request.form['image'] != "":
+         hob = HobbyImages.create(imageurl=request.form['image'],
+                                  desc=request.form['desc'],
+                                  hobbyid=hid)
+   return redirect(url_for("hobby", hid=hid))
 
 """
 REGISTER USER

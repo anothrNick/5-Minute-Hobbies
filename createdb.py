@@ -1,7 +1,7 @@
 __author__ = 'Nick Sjostrom'
 from model import *
 
-tables = [User, Hobby, Rating, MyHobbies]
+tables = [User, Hobby, Rating, MyHobbies, HobbyImages]
 
 for table in tables:
    if table.table_exists():
