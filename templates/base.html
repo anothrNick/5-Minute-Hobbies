@@ -24,12 +24,14 @@
                     <li><a href="{{ url_for('logout') }}">logout</a></li>
                     {% else %}
                     <li><a href="{{ url_for('login') }}">Login</a></li>
+                    <li>&nbsp;&nbsp;</li>
+                    <li><a href="{{ url_for('register') }}">Register</a></li>
                     {% endif %}
                 </ul>
 			</div>
 
                 <!-- PAGE CONTENT -->
-                <div class="content-wrap">
+            <div class="content-wrap">
                 <!-- USER MESSAGES -->
                 {% with messages = get_flashed_messages() %}
                     {% if messages %}
@@ -45,7 +47,7 @@
                 <!--CONTENT-->
                 {% block container %}
                 {% endblock %}
-                </div>
+            </div>
 		    <div class="footer"><p>&copy; 2014 Nick Sjostrom</p></div>
         </div>
 	</body>

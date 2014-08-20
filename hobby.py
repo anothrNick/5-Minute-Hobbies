@@ -1,19 +1,28 @@
 __author__ = 'Nick'
 from flask import Flask, request, session, redirect, flash, render_template, g, url_for
+from flask_login import login_required, logout_user, login_user, current_user, LoginManager
 from flask_admin import Admin
+from passlib.hash import sha256_crypt
 from model import *
 import requests
+import os
 
 app = Flask(__name__)
 app.secret_key = 'asdI@YjUa+563ioP!98(/aAraA12NosMl;'
+
+lm = LoginManager()
+lm.init_app(app)
+lm.login_view = "login"
 
 """
 HOME PAGE
 """
 @app.route('/')
 def index():
-   return render_template('index.html')
-
+   if current_user.is_authenticated():
+      return render_template('index.html')
+   else:
+      return redirect(url_for("login"))
 """
 ADD HOBBY
 """
@@ -51,9 +60,9 @@ FOLLOW HOBBY
 """
 @app.route('/followhobby/<hid>')
 def followhobby(hid):
-   hobb = MyHobbies.create(userid=session['userid'],
+   hobb = MyHobbies.create(userid=current_user.id,
                            hobbyid=hid)
-   return redirect(url_for('user', userid=session['userid']))
+   return redirect(url_for('user', userid=current_user.id))
 
 
 """
@@ -62,10 +71,11 @@ REGISTER USER
 @app.route('/register', methods=['GET', 'POST'])
 def register():
    if request.method == 'POST':
+      pass_hash = sha256_crypt.encrypt(request.form['password'])
       use = User.create(username=request.form['username'],
                         firstname=request.form['firstname'],
                         lastname=request.form['lastname'],
-                        password=request.form['password'],
+                        password=pass_hash,
                         email=request.form['email'])
       return redirect(url_for('index'))
    return render_template('register.html')
@@ -76,17 +86,19 @@ LOGIN
 @app.route('/login', methods=['GET', 'POST'])
 def login():
    if request.method == 'POST':
-      use = User.select().where(request.form['username'] == User.username,
-                                request.form['password'] == User.password).get()
+      use = User.select().where(request.form['username'] == User.username).get()
 
       if use:
-         print("user exists")
-         session['username'] = use.username
-         session['userid'] = use.id
-         flash("You have successfully logged in!")
-         return redirect(url_for('index'))
+         login_test = sha256_crypt.verify(request.form['password'], use.password)
+         if login_test:
+            print("user exists")
+            login_user(use, True)
+            flash("You have successfully logged in!")
+            return redirect(url_for('index'))
+         else:
+            flash("Invalid username / password combination.", 'danger')
       else:
-         print("no user")
+         flash("Invalid username / password combination.", 'danger')
    return render_template('login.html')
 
 """
@@ -94,8 +106,7 @@ LOGOUT
 """
 @app.route('/logout')
 def logout():
-   session.pop("username", None)
-   session.pop("user", None)
+   logout_user()
    flash("You are now logged out.")
    return redirect(url_for("index"))
 

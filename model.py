@@ -20,6 +20,22 @@ class User(PostgresqlModel):
    email = CharField(default="")
    datecreated = DateTimeField(default=datetime.datetime.now())
    admin = BooleanField(default=False)
+   active = BooleanField(default=True)
+
+   def is_authenticated(self):
+      return True
+
+   def is_active(self):
+      return self.active
+
+   def is_anonymous(self):
+      return False
+
+   def get_id(self):
+      return str(self.id)
+
+   def __str__(self):
+      return self.lastname
 
 #hobby that exists
 class Hobby(PostgresqlModel):
@@ -27,7 +43,12 @@ class Hobby(PostgresqlModel):
    name = CharField(default="")
    description = CharField(default="")
    imageurl = CharField(default="")
-   links = CharField(default="")
+
+class HobbyImages(PostgresqlModel):
+   id = PrimaryKeyField()
+   desc = CharField(default="")
+   imageurl = CharField(default="")
+   hobbyid = ForeignKeyField(Hobby, related_name="images")
 
 class Rating(PostgresqlModel):
    id = PrimaryKeyField()
@@ -35,24 +56,7 @@ class Rating(PostgresqlModel):
    hobbyid = ForeignKeyField(Hobby)
    userid = ForeignKeyField(User)
 
-class Review(PostgresqlModel):
-   id = PrimaryKeyField()
-   text = CharField(default="")
-   postdate = DateTimeField(default=datetime.datetime.now())
-   userid = ForeignKeyField(User)
-   hobbyid = ForeignKeyField(Hobby)
-
 class MyHobbies(PostgresqlModel):
    id = PrimaryKeyField()
    userid = ForeignKeyField(User)   #keep list of users hobbies(following?)
    hobbyid = ForeignKeyField(Hobby)  #hobby foreign key
-
-class MyHobbyUpdates(PostgresqlModel):
-   id = PrimaryKeyField()
-   updatefrom = ForeignKeyField(User)   #update from user
-   myhobbyid = ForeignKeyField(MyHobbies)    #myhobby foreign key
-   title = CharField(default="")    #title of update
-   link = CharField(default="")     #optional link
-   text = CharField(default="")     #optional text
-   updatedate = DateTimeField(default=datetime.datetime.now())
-   publish = BooleanField(default=False) #publish to the hobby wall
