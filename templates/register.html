@@ -5,11 +5,37 @@
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3" >
 			<form role="form" method="post" action="/register" class="col-md-12 lrg-form">
-				<div><input name="firstname" type="text" class="form-control itr" id="firstname" placeholder="first name"></div>
-                <div><input name="lastname" type="text" class="form-control imr" id="lastname" placeholder="last name"></div>
-                <div><input name="username" type="text" class="form-control imr" id="username" placeholder="username"></div>
-                <div><input name="email" type="email" class="form-control imr" id="email" placeholder="email"></div>
-				<div><input name="password" type="password" class="form-control ibr" id="password" placeholder="password"></div>
+                {{ form.csrf_token }}
+				<div class="form-group {% if form.fname.errors %} has-error {% endif %}">
+                    {{ form.fname(class="form-control itr", id="firstname-field", placeholder="first name") }}
+                    {% if form.fname.errors %}
+                        <small class="text-danger">{{ form.fname.errors[0] }}</small>
+                    {% endif %}
+                </div>
+                <div class="form-group {% if form.lname.errors %} has-error {% endif %}">
+                    {{ form.lname(class="form-control imr", id="lastname-field", placeholder="last name") }}
+                    {% if form.lname.errors %}
+                        <small class="text-danger">{{ form.lname.errors[0] }}</small>
+                    {% endif %}
+                </div>
+                <div class="form-group {% if form.username.errors %} has-error {% endif %}">
+                    {{ form.username(class="form-control imr", id="username-field", placeholder="username") }}
+                    {% if form.username.errors %}
+                        <small class="text-danger">{{ form.username.errors[0] }}</small>
+                    {% endif %}
+                </div>
+                <div class="form-group {% if form.email.errors %} has-error {% endif %}">
+                    {{ form.email(class="form-control imr", id="email-field", placeholder="email") }}
+                    {% if form.email.errors %}
+                        <small class="text-danger">{{ form.email.errors[0] }}</small>
+                    {% endif %}
+                </div>
+				<div class="form-group {% if form.password.errors %} has-error {% endif %}">
+                    {{ form.password(class="form-control ibr", id="password-field", placeholder="password") }}
+                    {% if form.password.errors %}
+                        <small class="text-danger">{{ form.password.errors[0] }}</small>
+                    {% endif %}
+                </div>
                 <br/>
 				<button type="submit" class="btn btn-primary col-md-12">Register</button>
 			</form>

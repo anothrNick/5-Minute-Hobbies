@@ -19,8 +19,8 @@
                 </ul>
 
                 <ul class="sess pull-right">
-                    {% if session.username %}
-                    <li><a href="{{ url_for('user', userid=session.userid) }}">{{ session.username }}</a></li>
+                    {% if current_user.is_authenticated() %}
+                    <li><a href="{{ url_for('user', userid=current_user.id) }}">{{ current_user.username }}</a></li>
                     <li><a href="{{ url_for('logout') }}">logout</a></li>
                     {% else %}
                     <li><a href="{{ url_for('login') }}">Login</a></li>

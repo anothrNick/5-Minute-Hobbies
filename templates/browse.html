@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block container %}
 
-    {% if session.username %}
+    {% if current_user.is_authenticated() %}
     <div class="row">
         <div class="col-md-2">
             <a href="{{ url_for('addhobby') }}" class="btn btn-success pull-right" style="margin-bottom:20px">Add Hobby</a>
@@ -19,7 +19,7 @@
 
         <a href="{{ url_for('hobby', hid=hobby.id) }}" class="btn btn-default col-md-8 el" title="{{ hobby.name }}" style="overflow:hidden">{{ hobby.name }}</a>
 
-        {% if session.username %}
+        {% if current_user.is_authenticated() %}
             <a href="{{ url_for('followhobby', hid=hobby.id) }}" class="btn btn-primary col-md-4 er">iliekdis</a>
         {% endif %}
     </div>

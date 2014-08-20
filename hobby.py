@@ -4,6 +4,7 @@ from flask_login import login_required, logout_user, login_user, current_user, L
 from flask_admin import Admin
 from passlib.hash import sha256_crypt
 from model import *
+from forms import *
 import requests
 import os
 
@@ -70,36 +71,45 @@ REGISTER USER
 """
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-   if request.method == 'POST':
-      pass_hash = sha256_crypt.encrypt(request.form['password'])
-      use = User.create(username=request.form['username'],
-                        firstname=request.form['firstname'],
-                        lastname=request.form['lastname'],
+   form = RegisterForm()
+
+   if form.validate_on_submit():
+      pass_hash = sha256_crypt.encrypt(form.password.data)
+      use = User.create(username=form.username.data,
+                        firstname=form.fname.data,
+                        lastname=form.lname.data,
                         password=pass_hash,
-                        email=request.form['email'])
+                        email=form.email.data)
       return redirect(url_for('index'))
-   return render_template('register.html')
+   return render_template('register.html', form=form)
 
 """
 LOGIN
 """
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-   if request.method == 'POST':
-      use = User.select().where(request.form['username'] == User.username).get()
+   form = LoginForm()
 
-      if use:
-         login_test = sha256_crypt.verify(request.form['password'], use.password)
-         if login_test:
-            print("user exists")
-            login_user(use, True)
-            flash("You have successfully logged in!")
-            return redirect(url_for('index'))
+   print(form.username.data)
+   print(form.password.data)
+   if form.validate_on_submit():
+      try:
+         use = User.select().where(form.username.data == User.username).get()
+         print(form.password.data)
+         if use:
+            login_test = sha256_crypt.verify(form.password.data, use.password)
+            if login_test:
+               login_user(use, True)
+               flash("You have successfully logged in!")
+               return redirect(url_for('index'))
+            else:
+               raise Exception()
          else:
-            flash("Invalid username / password combination.", 'danger')
-      else:
+            raise Exception()
+      except:
          flash("Invalid username / password combination.", 'danger')
-   return render_template('login.html')
+
+   return render_template('login.html', form=form)
 
 """
 LOGOUT
@@ -126,6 +136,14 @@ LIST USERS
 def users():
    userList = User.select()
    return render_template('userlist.html', users=userList)
+
+@lm.user_loader
+def load_user(id):
+   try:
+      return User.get(User.id == id)
+   except:
+      return None
+
 
 #DATABASE
 #open/close db before/after connection
