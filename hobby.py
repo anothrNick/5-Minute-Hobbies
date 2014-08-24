@@ -5,6 +5,7 @@ from flask_admin import Admin
 from passlib.hash import sha256_crypt
 from model import *
 from forms import *
+from flaskext.markdown import Markdown
 import requests
 import os
 
@@ -15,13 +16,14 @@ lm = LoginManager()
 lm.init_app(app)
 lm.login_view = "login"
 
+Markdown(app)
 """
 HOME PAGE
 """
 @app.route('/')
 def index():
    if current_user.is_authenticated():
-      return render_template('index.html')
+      return redirect(url_for("browse"))
    else:
       return redirect(url_for("login"))
 """
@@ -76,6 +78,17 @@ def hobby_pic(hid):
                                   desc=request.form['desc'],
                                   hobbyid=hid)
    return redirect(url_for("hobby", hid=hid))
+
+@app.route('/hobby/desc/<hid>', methods=['GET', 'POST'])
+def hobby_desc(hid):
+   if request.method == 'POST':
+      if request.form['desc-edit'] != "":
+         hob = Hobby.select().where(Hobby.id==hid).get()
+         if hob:
+             hob.description = request.form['desc-edit']
+             hob.save()
+   return redirect(url_for("hobby", hid=hid))
+
 
 """
 REGISTER USER

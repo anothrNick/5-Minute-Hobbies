@@ -20,19 +20,27 @@
         <div class="tab-content">
             <div class="tab-pane fade in active" id="activity">
                 <div class="hc">
-                    <div class="row"><div class="col-md-12"><button class="btn btn-sm btn-default pull-right">Edit</button></div></div>
+                    {% if current_user.is_authenticated() %}
+                    <div class="row"><div class="col-md-12"><button class="btn btn-sm btn-default pull-right" data-toggle="modal" data-target="#descModal">Edit</button></div></div>
+                    {% endif %}
                     <div class="row">
                         <div class="col-md-12">
-                            <p>{{ hobby.description }}</p>
-                            <textarea name="content" data-provide="markdown" rows="7">{{ hobby.description }}</textarea>
+
+                            {% filter markdown %}
+
+                            {{ hobby.description }}
+
+                            {% endfilter %}
+
                         </div>
                     </div>
                 </div>
             </div>
             <div class="tab-pane fade" id="reviews">
                 <div class="hc">
-                    <div class="row"><div class="col-md-12"><button class="btn btn-sm btn-info pull-right" data-toggle="modal" data-target="#msgModal">Add Pic</button></div></div>
-
+                    {% if current_user.is_authenticated() %}
+                    <div class="row"><div class="col-md-12"><button class="btn btn-sm btn-info pull-right" data-toggle="modal" data-target="#imgModal">Add Pic</button></div></div>
+                    {% endif %}
                     <div class="row">
                     {% for pic in hobby.images %}
                         <div class="col-md-4" id="{{ pic.id }}">
@@ -51,8 +59,36 @@
 
     </div>
 </div>
+
+<div class="modal fade" id="descModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="msgLabel1">Edit Description</h4>
+            </div>
+            <form class="form-horizontal" action="{{ url_for('hobby_desc', hid=hobby.id) }}" method="post" role="form">
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <textarea name="desc-edit" id="desc-edit" data-provide="markdown" rows="7">{{ hobby.description }}</textarea>
+                        </div>
+                    </div>
+
+                    <br/>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <!-- Modal -->
-<div class="modal fade" id="msgModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="imgModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -87,6 +123,7 @@
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
     $('#hobby-tabs a').click(function (e) {
         e.preventDefault()
