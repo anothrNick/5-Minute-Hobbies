@@ -3,14 +3,38 @@
 
 
 <div class="row">
-    <div class="col-md-4">
-        <img class="mw-image" id="hi" src="{{ hobby.imageurl }}"/>
+    <div class="col-md-4 col-sm-4 col-xs-4">
+        <div class="row">
+            <div class="col-md-12"><img class="mw-image" id="hi" src="{{ hobby.imageurl }}"/></div>
+        </div>
 
-        <h3>{{ hobby.name }}</h3>
+        <div class="row">
+            <div class="col-md-12"><h3>{{ hobby.name }}</h3></div>
+        </div>
 
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <span style="font-size:18px;">Helpful Links</span>
+                        {% if current_user.is_authenticated() and current_user.id == hobby.creator.id %}
+                        <button class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#linkModal"><span class="glyphicon glyphicon-plus"></span></button>
+                        {% endif %}
+                    </div>
+                    <ul class="list-group">
+                        {% for link in hobby.links %}
+                            <a href="{{ link.link }}" class="list-group-item">
+                                 <img height="16" width="16" src='http://getfavicon.appspot.com/{{ link.link }}' />
+                                {{ link.title }}
+                            </a>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="col-md-8">
+    <div class="col-md-8 col-sm-8 col-xs-8">
         <ul id="hobby-tabs" class="nav nav-tabs">
             <li class="active"><a href="#about">About</a></li>
             <li><a href="#reviews">Pictures</a></li>
@@ -22,7 +46,7 @@
             <div class="tab-pane fade in active" id="about">
                 <div class="hc">
                     {% if current_user.is_authenticated() and current_user.id == hobby.creator.id %}
-                    <div class="row"><div class="col-md-12"><button class="btn btn-sm btn-default pull-right" data-toggle="modal" data-target="#descModal">Edit</button></div></div>
+                    <div class="row"><div class="col-md-12"><button class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#descModal"><span class="glyphicon glyphicon-pencil"></span></button></div></div>
                     {% endif %}
                     <div class="row">
                         <div class="col-md-12">
@@ -34,7 +58,7 @@
             <div class="tab-pane fade" id="reviews">
                 <div class="hc">
                     {% if current_user.is_authenticated() %}
-                    <div class="row"><div class="col-md-12"><button class="btn btn-sm btn-info pull-right" data-toggle="modal" data-target="#imgModal">Add Pic</button></div></div>
+                    <div class="row"><div class="col-md-12"><button class="btn btn-xs btn-info pull-right" data-toggle="modal" data-target="#imgModal"><span class="glyphicon glyphicon-plus"></span></button></div></div>
                     {% endif %}
                     <div class="row">
                     {% for pic in hobby.images %}
@@ -48,14 +72,14 @@
             <div class="tab-pane fade" id="activity">
                 <div class="hc">
                     <div class="row">
-                        <div class="col-md-12"><button class="btn btn-sm btn-info pull-right" data-toggle="modal" data-target="#commentModal">Add Comment</button></div>
+                        <div class="col-md-12"><button class="btn btn-xs btn-info pull-right" data-toggle="modal" data-target="#commentModal"><span class="glyphicon glyphicon-plus"></span></button></div>
                     </div>
                     <br/>
 
                     {% for comment in hobby.hobbycomments %}
                         <div style="padding: 15px 0;border-bottom: 1px solid #f5f5f5;">
                             <div class="row" id="{{ comment.id }}">
-                                <div class="col-md-2 col-sm-2 col-xs-2"><img src="http://fillmurray.com/100/100" style="width:100%;"/></div>
+                                <div class="col-md-2 col-sm-2 col-xs-2"><img src="http://fillmurray.com/100/100" class="img-rounded" style="width:100%;"/></div>
                                 <div class="col-md-10 col-sm-10 col-xs-10" style="padding-left:0;">
                                     <div class="row">
                                         <div class="col-md-8">
@@ -66,7 +90,7 @@
                                         </div>
                                     </div>
                                     <div class="row" style="margin-top:5px">
-                                        <div class="col-md-12">
+                                        <div class="col-md-12" style="color:#999;">
                                             {{ comment.comment }}
                                         </div>
                                     </div>
@@ -74,7 +98,6 @@
                             </div>
                         </div>
                     {% endfor %}
-                    </div>
                 </div>
             </div>
 
@@ -82,7 +105,44 @@
 
     </div>
 </div>
+<!-- Link -->
+<div class="modal fade" id="linkModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="msgLabe3">Add Link</h4>
+            </div>
+            <form class="form-horizontal" action="{{ url_for('hobby_link', hid=hobby.id) }}" method="post" role="form">
+                <div class="modal-body">
 
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label for="title" class="control-label">Title:</label>
+                            <input name="title" id="title" class="form-control" type="text" placeholder="title" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label for="link" class="control-label">URL:</label>
+                            <input name="link" id="link" class="form-control" type="text" placeholder="link url" />
+                        </div>
+                    </div>
+
+                    <br/>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Comment -->
 <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -111,6 +171,7 @@
     </div>
 </div>
 
+<!-- Description -->
 <div class="modal fade" id="descModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -138,7 +199,8 @@
         </div>
     </div>
 </div>
-<!-- Modal -->
+
+<!-- Image -->
 <div class="modal fade" id="imgModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

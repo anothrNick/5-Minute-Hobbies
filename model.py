@@ -55,6 +55,7 @@ class HobbyImages(PostgresqlModel):
 class HobbyLinks(PostgresqlModel):
    id = PrimaryKeyField()
    link = TextField(default="")
+   title = CharField(default="")
    hobbyid = ForeignKeyField(Hobby, related_name="links")
 
 class Rating(PostgresqlModel):

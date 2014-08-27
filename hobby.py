@@ -83,6 +83,15 @@ def hobby_pic(hid):
                                   hobbyid=hid)
    return redirect(url_for("hobby", hid=hid))
 
+@app.route('/hobby/link/<hid>', methods=['GET', 'POST'])
+def hobby_link(hid):
+   if request.method == 'POST':
+      if request.form['title'] != "" and request.form['link']:
+         hob = HobbyLinks.create(title=request.form['title'],
+                                  link=request.form['link'],
+                                  hobbyid=hid)
+   return redirect(url_for("hobby", hid=hid))
+
 @app.route('/hobby/desc/<hid>', methods=['GET', 'POST'])
 def hobby_desc(hid):
    if request.method == 'POST':

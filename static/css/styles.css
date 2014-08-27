@@ -152,7 +152,7 @@ body > .container{
     padding: 20px 2px 0 2px;
 }
 .mw-image{
-    max-width:100%;
+    width:100%;
 }
 .no-lp{
     padding-left:0;
