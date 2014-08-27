@@ -34,8 +34,12 @@ def addhobby():
    if request.method == 'POST':
       hob = Hobby.create(name=request.form['name'],
                          description=request.form['desc'],
-                         imageurl=request.form['url'])
-      return redirect(url_for('browse'))
+                         imageurl=request.form['url'],
+                         creator=current_user.id)
+      if hob:
+         hobb = MyHobbies.create(userid=current_user.id,
+                                 hobbyid=hob.id)
+         return redirect(url_for('browse'))
    return render_template('addhobby.html')
 
 """
@@ -89,6 +93,15 @@ def hobby_desc(hid):
              hob.save()
    return redirect(url_for("hobby", hid=hid))
 
+@app.route('/hobby/comment/<hid>', methods=['GET', 'POST'])
+def hobby_comment(hid):
+   if request.method == 'POST':
+      if request.form['comment-edit'] != "":
+         com = HobbyComment.create(comment=request.form['comment-edit'],
+                                    userid=current_user.id,
+                                    hobbyid=hid,
+                                    date=datetime.datetime.now())
+   return redirect(url_for("hobby", hid=hid))
 
 """
 REGISTER USER
@@ -104,6 +117,8 @@ def register():
                         lastname=form.lname.data,
                         password=pass_hash,
                         email=form.email.data)
+      login_user(use, True)
+      flash("You have successfully registered for Five Minute Hobbies!")
       return redirect(url_for('index'))
    return render_template('register.html', form=form)
 

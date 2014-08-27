@@ -64,10 +64,10 @@
                 <!-- PAGE CONTENT -->
             <div class="content-wrap">
                 <!-- USER MESSAGES -->
-                {% with messages = get_flashed_messages() %}
+                {% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}
-                        {% for message in messages %}
-                        <div class="alert alert-success alert-dismissable">
+                        {% for category, message in messages %}
+                        <div class="alert alert-success alert-{{ category }} alert-dismissable">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                             {{ message }}
                         </div>
