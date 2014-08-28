@@ -4,6 +4,7 @@ import peewee
 import datetime
 import json
 
+#sqlite
 db = peewee.SqliteDatabase('data.db', threadlocals=True)
 
 class dbModel(Model):
