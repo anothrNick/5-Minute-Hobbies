@@ -3,7 +3,7 @@ from peewee import *
 import datetime
 import json
 
-db = PostgresqlDatabase('hobbydb', user='hobbyuser', password='hobbypassword', host='localhost')
+db = PostgresqlDatabase('#', user='#', password='#', host='localhost')
 
 class PostgresqlModel(Model):
    """A base model that will use our Postgresql database"""
