@@ -99,6 +99,7 @@ def hobby_desc(hid):
          hob = Hobby.select().where(Hobby.id==hid).get()
          if hob:
              hob.description = request.form['desc-edit']
+             hob.imageurl = request.form['imageurl']
              hob.save()
    return redirect(url_for("hobby", hid=hid))
 
