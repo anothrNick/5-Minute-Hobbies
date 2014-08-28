@@ -7,4 +7,4 @@ for table in tables:
    if table.table_exists():
       pass#table.drop_table()
    else:
-      table.create_table()
+      table.create_table(fail_silently=True)

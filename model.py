@@ -1,17 +1,18 @@
 __author__ = 'Nick'
 from peewee import *
+import peewee
 import datetime
 import json
 
-db = PostgresqlDatabase('hobbydb', user='hobbyuser', password='hobbypassword', host='localhost')
+db = peewee.SqliteDatabase('data.db', threadlocals=True)
 
-class PostgresqlModel(Model):
-   """A base model that will use our Postgresql database"""
+class dbModel(Model):
+   """A base model that will use our sqlite database"""
    class Meta:
       database = db
 
 #user information for now
-class User(PostgresqlModel):
+class User(Model):
    id = PrimaryKeyField()
    firstname = CharField(default="")
    lastname = CharField(default="")
@@ -39,37 +40,37 @@ class User(PostgresqlModel):
       return self.lastname
 
 #hobby that exists
-class Hobby(PostgresqlModel):
+class Hobby(Model):
    id = PrimaryKeyField()
    name = CharField(default="")
    description = TextField(default="")
    imageurl = CharField(default="")
    creator = ForeignKeyField(User, related_name="user")
 
-class HobbyImages(PostgresqlModel):
+class HobbyImages(Model):
    id = PrimaryKeyField()
    desc = CharField(default="")
    imageurl = CharField(default="")
    hobbyid = ForeignKeyField(Hobby, related_name="images")
 
-class HobbyLinks(PostgresqlModel):
+class HobbyLinks(Model):
    id = PrimaryKeyField()
    link = TextField(default="")
    title = CharField(default="")
    hobbyid = ForeignKeyField(Hobby, related_name="links")
 
-class Rating(PostgresqlModel):
+class Rating(Model):
    id = PrimaryKeyField()
    rating = IntegerField(default=1)
    hobbyid = ForeignKeyField(Hobby)
    userid = ForeignKeyField(User)
 
-class MyHobbies(PostgresqlModel):
+class MyHobbies(Model):
    id = PrimaryKeyField()
    userid = ForeignKeyField(User)   #keep list of users hobbies(following?)
    hobbyid = ForeignKeyField(Hobby)  #hobby foreign key
 
-class HobbyComment(PostgresqlModel):
+class HobbyComment(Model):
    id = PrimaryKeyField()
    userid = ForeignKeyField(User, related_name="usercomments")
    hobbyid = ForeignKeyField(Hobby, related_name="hobbycomments")
