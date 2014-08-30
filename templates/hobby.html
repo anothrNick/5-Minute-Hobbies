@@ -23,10 +23,16 @@
                     </div>
                     <ul class="list-group">
                         {% for link in hobby.links %}
-                            <a href="{{ link.link }}" class="list-group-item">
-                                 <img height="16" width="16" src='http://getfavicon.appspot.com/{{ link.link }}' />
-                                {{ link.title }}
-                            </a>
+                            <div class="list-group-item">
+                                <a href="{{ link.link }}" class="">
+                                    <img height="16" width="16" src='http://getfavicon.appspot.com/{{ link.link }}' />
+                                    {{ link.title }}
+                                </a>
+
+                                <a href="{{ url_for('delete_link', hid=hobby.id, lid=link.id) }}" class="pull-right">
+                                    <span class="glyphicon glyphicon-minus" title="delete"></span>
+                                </a>
+                            </div>
                         {% endfor %}
                     </ul>
                 </div>

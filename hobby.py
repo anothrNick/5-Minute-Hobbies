@@ -11,6 +11,7 @@ import os
 
 app = Flask(__name__)
 app.secret_key = 'asdI@YjUa+563ioP!98(/aAraA12NosMl;'
+app.jinja_env.cache = {}
 
 lm = LoginManager()
 lm.init_app(app)
@@ -90,6 +91,11 @@ def hobby_link(hid):
          hob = HobbyLinks.create(title=request.form['title'],
                                   link=request.form['link'],
                                   hobbyid=hid)
+   return redirect(url_for("hobby", hid=hid))
+
+@app.route('/hobby/<hid>/link/<lid>/delete', methods=['GET', 'POST'])
+def delete_link(lid, hid):
+   hob = HobbyLinks.delete().where(HobbyLinks.id==lid).execute()
    return redirect(url_for("hobby", hid=hid))
 
 @app.route('/hobby/desc/<hid>', methods=['GET', 'POST'])
