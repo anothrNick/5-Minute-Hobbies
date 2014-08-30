@@ -84,26 +84,16 @@
                     <br/>
 
                     {% for comment in hobby.hobbycomments %}
-                        <div style="padding: 15px 0;border-bottom: 1px solid #f5f5f5;">
-                            <div class="row" id="{{ comment.id }}">
-                                <div class="col-md-2 col-sm-2 col-xs-2"><img src="http://fillmurray.com/100/100" class="img-rounded" style="width:100%;"/></div>
-                                <div class="col-md-10 col-sm-10 col-xs-10" style="padding-left:0;">
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <h3 style="margin:0;">{{ comment.userid.username }}</h3>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <small>{{ comment.date.strftime('%x - %I:%M%p') }}</small>
-                                        </div>
-                                    </div>
-                                    <div class="row" style="margin-top:5px">
-                                        <div class="col-md-12" style="color:#999;">
-                                            {{ comment.comment }}
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="media">
+                            <a class="pull-left" href="{{ url_for('user', userid=comment.userid.id) }}">
+                                <img src="http://fillmurray.com/64/64" class="media-object" style="width:100%;"/>
+                            </a>
+                            <div class="media-body">
+                                <h4 class="media-heading">{{ comment.userid.username }}</h4>
+                                {{ comment.comment }}
                             </div>
                         </div>
+
                     {% endfor %}
                 </div>
             </div>
