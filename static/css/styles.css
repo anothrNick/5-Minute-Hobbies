@@ -1,9 +1,9 @@
 html, body{
     height:100%
 }
+
 body {
     padding-top: 20px;
-    padding-bottom: 20px;
 }
 textarea {
    resize: none;
@@ -13,17 +13,24 @@ textarea {
     padding-right: 15px;
     padding-left: 15px;
 }
-.footer{
-    margin-top: -60px;
+
+#wrap{
+    min-height:100%;
+    padding-bottom:41px;
 }
-body > .container{
-    height:100%;
+#footer{
+    margin-top: -41px;
+    color: #777;
+    border-top: 1px solid #e5e5e5;
+    background-color:#FFF;
+    padding-top: 10px;
 }
+
 .content-wrap{
     min-height: 100%;
     margin-top: -82px;
     padding-top: 82px;
-    padding-bottom: 60px;
+    padding-bottom: 41px;
 }
 
 .sess{

@@ -4,6 +4,7 @@
 		<title>5 Minute Hobbies</title>
 		<meta charset="utf-8">
 		<meta name="author" content="Nick Sjostrom">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="{{ url_for('static', filename='images/clock.ico') }}">
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
@@ -15,7 +16,7 @@
         <script language="javascript" type="text/javascript" src="{{ url_for('static', filename='bootstrap-markdown/js/markdown.js') }}"></script>
 	</head>
 	<body>
-        <div class='container'>
+        <div class='container' id="wrap">
             <div class="navbar navbar-default" role="navigation">
                 <div class="container-fluid">
                     <div class="navbar-header">
@@ -78,8 +79,7 @@
                 {% block container %}
                 {% endblock %}
             </div>
-		    <div class="footer"><p>&copy; 2014 Nick Sjostrom</p></div>
         </div>
-
+        <div class='container' id="footer"><p class="text-center">Copyright &copy; <a href="http://meeplecorp.net">Meeplecorp</a> 2014. All Rights Reserved</p></div>
 	</body>
 </html>
