@@ -32,6 +32,9 @@ textarea {
     padding-top: 82px;
     padding-bottom: 41px;
 }
+.mbox {
+    margin: 10px 0 10px 0;
+}
 
 .sess{
     list-style:none;

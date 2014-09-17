@@ -44,13 +44,13 @@
     <div class="col-md-8 col-sm-8 col-xs-8">
         <ul id="hobby-tabs" class="nav nav-tabs">
             <li class="active"><a href="#about">About</a></li>
-            <li><a href="#reviews">Pictures</a></li>
+            <li><a href="#pics" onclick="initMasonry()">Pictures</a></li>
             <li><a href="#activity">Activity</a></li>
             <!--<li><a href="#links">Links</a></li>-->
         </ul>
 
         <div class="tab-content">
-            <div class="tab-pane fade in active" id="about">
+            <div class="tab-pane in active" id="about">
                 <div class="hc">
                     {% if current_user.is_authenticated() and current_user.id == hobby.creator.id %}
                     <div class="row"><div class="col-md-12"><button class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#descModal"><span class="glyphicon glyphicon-pencil"></span></button></div></div>
@@ -62,21 +62,26 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade" id="reviews">
+
+            <div class="tab-pane" id="pics">
                 <div class="hc">
                     {% if current_user.is_authenticated() %}
                     <div class="row"><div class="col-md-12"><button class="btn btn-xs btn-info pull-right" data-toggle="modal" data-target="#imgModal"><span class="glyphicon glyphicon-plus"></span></button></div></div>
+                    <br/>
                     {% endif %}
                     <div class="row">
-                    {% for pic in hobby.images %}
-                        <div class="col-md-4" id="{{ pic.id }}">
-                            <img src="{{ pic.imageurl }}" class="hobby-pic" style="width:100%;box-shadow: 1px 1px 2px rgba(0,0,0,.6);"/>
+                        <div id="mason">
+                        {% for pic in hobby.images %}
+                            <div class="mbox col-lg-4 col-md-4 col-sm-4" id="{{ pic.id }}">
+                                <img src="{{ pic.imageurl }}" class="img-responsive img-thumbnail"/>
+                            </div>
+                        {% endfor %}
                         </div>
-                    {% endfor %}
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade" id="activity">
+
+            <div class="tab-pane" id="activity">
                 <div class="hc">
                     <div class="row">
                         <div class="col-md-12"><button class="btn btn-xs btn-info pull-right" data-toggle="modal" data-target="#commentModal"><span class="glyphicon glyphicon-plus"></span></button></div>
@@ -245,6 +250,19 @@
     $('#hobby-tabs a').click(function (e) {
         e.preventDefault()
         $(this).tab('show')
-    })
+    });
+
+    function initMasonry(){
+        console.log("init");
+        var $container = $('#mason');
+
+        $container.imagesLoaded(function () {
+            $container.masonry({
+                itemSelector: '.mbox',
+                columnWidth: '.mbox',
+                transitionDuration: 0
+            });
+        });
+    }
 </script>
 {% endblock %}
